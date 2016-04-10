@@ -70,7 +70,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                 WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
                 new String[]{locationSetting},
                 null);
-
+        Log.d(LOG_TAG, "Inside addLocation: locationSetting: "+locationSetting + " cityName: "+cityName);
         if (locationCursor.moveToFirst()) {
             int locationIdIndex = locationCursor.getColumnIndex(WeatherContract.LocationEntry._ID);
             locationId = locationCursor.getLong(locationIdIndex);
@@ -94,6 +94,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
 
             // The resulting URI contains the ID for the row.  Extract the locationId from the Uri.
             locationId = ContentUris.parseId(insertedUri);
+
         }
 
         locationCursor.close();
@@ -111,7 +112,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
     private void getWeatherDataFromJson(String forecastJsonStr,
                                         String locationSetting)
             throws JSONException {
-
+        Log.d(LOG_TAG, "getWeatherDataFromJson");
         // Now we have a String representing the complete forecast in JSON Format.
         // Fortunately parsing is easy:  constructor takes the JSON string and converts it
         // into an Object hierarchy for us.
@@ -255,7 +256,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             return null;
         }
         String locationQuery = params[0];
-
+        Log.d(LOG_TAG, "in doInBackground: locationQuery: "+ locationQuery);
         // These two need to be declared outside the try/catch
         // so that they can be closed in the finally block.
         HttpURLConnection urlConnection = null;
